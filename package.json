@@ -1,0 +1,35 @@
+{
+  "name": "bem-naming-transformations",
+  "version": "1.0.0",
+  "description": "BEM naming notation transformations",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "bem",
+    "naming",
+    "rebem",
+    "codestyle"
+  ],
+  "repository": "tadatuta/bem-naming-transformations",
+  "bugs": {
+    "url": "https://github.com/tadatuta/bem-naming-transformations/issues"
+  },
+  "homepage": "https://github.com/tadatuta/bem-naming-transformations",
+  "author": "Vladimir Grinenko <i@tadatuta.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "@bem/sdk.entity-name": "^0.2.10"
+  }
+}

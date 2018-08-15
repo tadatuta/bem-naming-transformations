@@ -107,4 +107,45 @@ describe('custom', () => {
 
         assert.deepEqual(actual, targetEntity);
     });
+
+    describe('blacklist', () => {
+        it('should ignore entities from blacklist', () => {
+            const sourceEntity = BemEntityName.create({ block: 'b1', elem: 'e1' });
+            const targetEntity = BemEntityName.create({ block: 'b1', elem: 'e1' });
+
+            const actual = transform(sourceEntity, {
+                naming: 'react',
+                blacklist: [{
+                    block: 'b1',
+                    elem: 'e1'
+                }]
+            });
+
+            assert.ok(actual.isEqual(targetEntity));
+        });
+
+        it('should ignore blocks as string from blacklist', () => {
+            const sourceEntity = BemEntityName.create({ block: 'b2' });
+            const targetEntity = BemEntityName.create({ block: 'b2' });
+
+            const actual = transform(sourceEntity, {
+                naming: 'react',
+                blacklist: ['b1', 'b2', 'b3']
+            });
+
+            assert.ok(actual.isEqual(targetEntity));
+        });
+
+        it('should not ignore entities not in blacklist', () => {
+            const sourceEntity = BemEntityName.create({ block: 'b1' });
+            const targetEntity = BemEntityName.create({ block: 'B1' });
+
+            const actual = transform(sourceEntity, {
+                naming: 'react',
+                blacklist: ['b2', 'b3']
+            });
+
+            assert.ok(actual.isEqual(targetEntity));
+        });
+    });
 });

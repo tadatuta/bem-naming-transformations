@@ -37,10 +37,26 @@ const presets = {
     }
 }
 
+function shouldTransform(entity, blacklist) {
+    if (!blacklist || !blacklist.length) return true;
+
+    const entityBlacklist = new Set();
+    blacklist.forEach(item => {
+        entityBlacklist.add(BemEntityName.create(
+            typeof item === 'string' ?
+                { block: item } :
+                item
+        ).toString());
+    });
+
+    return !entityBlacklist.has(entity.toString());
+}
+
 /*
  * entity {BemEntityName} - representation of BEM entity
  * opts {object} - options
  * options.naming {string|boolean|object} ['react']
+ * options.blacklist [string|{}] - array of strings or objects representing BEM entity to ignore
  * [transforms] {object} - custom transformations
  * transforms.block {function}
  * transforms.elem {function}
@@ -51,6 +67,11 @@ const presets = {
  */
 function bemEntityNameTransform(entity, options) {
     const opts = Object.assign({}, options);
+
+    if (!shouldTransform(entity, options.blacklist)) {
+        return entity;
+    }
+
     const naming = opts.naming === undefined ? 'react' : opts.naming;
     const result = presets[naming] ? presets[naming](entity) : entity;
 

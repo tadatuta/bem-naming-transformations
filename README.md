@@ -17,5 +17,6 @@ console.log(reactEntity); // { block: 'MyBlock', elem: 'SomeElem' }
 ### Options
 * naming
 * transforms
+* blacklist
 
 For examples please refer to [specs](https://github.com/tadatuta/bem-naming-transformations/blob/master/test/index.js).

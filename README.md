@@ -18,5 +18,6 @@ console.log(reactEntity); // { block: 'MyBlock', elem: 'SomeElem' }
 * naming
 * transforms
 * blacklist
+* whitelist
 
 For examples please refer to [specs](https://github.com/tadatuta/bem-naming-transformations/blob/master/test/index.js).

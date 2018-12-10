@@ -148,4 +148,33 @@ describe('custom', () => {
             assert.ok(actual.isEqual(targetEntity));
         });
     });
+
+    describe('whitelist', () => {
+        it('should apply transforms for entities from whitelist', () => {
+            const sourceEntity = BemEntityName.create({ block: 'b1', elem: 'e1' });
+            const targetEntity = BemEntityName.create({ block: 'B1', elem: 'E1' });
+
+            const actual = transform(sourceEntity, {
+                naming: 'react',
+                whitelist: [{
+                    block: 'b1',
+                    elem: 'e1'
+                }]
+            });
+
+            assert.ok(actual.isEqual(targetEntity));
+        });
+
+        it('should ignore entities not in whitelist', () => {
+            const sourceEntity = BemEntityName.create({ block: 'b1' });
+            const targetEntity = BemEntityName.create({ block: 'b1' });
+
+            const actual = transform(sourceEntity, {
+                naming: 'react',
+                whitelist: ['b2', 'b3']
+            });
+
+            assert.ok(actual.isEqual(targetEntity));
+        });
+    });
 });

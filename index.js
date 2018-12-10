@@ -37,19 +37,27 @@ const presets = {
     }
 }
 
-function shouldTransform(entity, blacklist) {
-    if (!blacklist || !blacklist.length) return true;
-
-    const entityBlacklist = new Set();
-    blacklist.forEach(item => {
-        entityBlacklist.add(BemEntityName.create(
+function listToEntitySet(list) {
+    const entitySet = new Set();
+    list.forEach(item => {
+        entitySet.add(BemEntityName.create(
             typeof item === 'string' ?
                 { block: item } :
                 item
         ).toString());
     });
 
-    return !entityBlacklist.has(entity.toString());
+    return entitySet;
+}
+
+function shouldTransform(entity, blacklist, whitelist) {
+    if ((!whitelist || !whitelist.length) && (!blacklist || !blacklist.length)) return true;
+
+    if (whitelist) {
+        return listToEntitySet(whitelist).has(entity.toString());
+    }
+
+    return !listToEntitySet(blacklist).has(entity.toString());
 }
 
 /*
@@ -57,6 +65,7 @@ function shouldTransform(entity, blacklist) {
  * opts {object} - options
  * options.naming {string|boolean|object} ['react']
  * options.blacklist [string|{}] - array of strings or objects representing BEM entity to ignore
+ * options.whitelist [string|{}] - array of strings or objects representing BEM entity to transform
  * [transforms] {object} - custom transformations
  * transforms.block {function}
  * transforms.elem {function}
@@ -68,7 +77,7 @@ function shouldTransform(entity, blacklist) {
 function bemEntityNameTransform(entity, options) {
     const opts = Object.assign({}, options);
 
-    if (!shouldTransform(entity, options.blacklist)) {
+    if (!shouldTransform(entity, options.blacklist, options.whitelist)) {
         return entity;
     }
 

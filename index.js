@@ -13,7 +13,8 @@ function transform(entity, customTransforms) {
 
     return BemEntityName.create({
         block: (transforms.prefix ? transforms.prefix : '') +
-            transforms.block(entity.block),
+            transforms.block(entity.block) +
+            (transforms.suffix ? transforms.suffix : ''),
         elem: entity.elem && transforms.elem(entity.elem),
         mod: entity.mod && {
             name: transforms.modName(entity.mod.name),
@@ -72,6 +73,7 @@ function shouldTransform(entity, blacklist, whitelist) {
  * transforms.modName {function}
  * transforms.modVal {function}
  * transforms.prefix {string}
+ * transforms.suffix {string}
  * @returns {BemEntityName}
  */
 function bemEntityNameTransform(entity, options) {

@@ -68,7 +68,7 @@ function run(sourceScheme, targetScheme) {
             const targetEntity = BemEntityName.create(testCase.schemes[targetScheme]);
             const actual = transform(sourceEntity, { naming: targetScheme, ...testCase.opts });;
 
-            it(testCase.case, () => assert.deepEqual(actual, targetEntity));
+            it(testCase.case, () => assert.deepStrictEqual(actual, targetEntity));
         });
     });
 }
@@ -85,7 +85,16 @@ describe('custom', () => {
 
         const actual = transform(sourceEntity, { naming: 'origin', transforms: { prefix: 'b-' } });
 
-        assert.deepEqual(actual, targetEntity);
+        assert.deepStrictEqual(actual, targetEntity);
+    });
+
+    it('should add suffix', () => {
+        const sourceEntity = BemEntityName.create({ block: 'b1', elem: 'e1' });
+        const targetEntity = BemEntityName.create({ block: 'b1-suf', elem: 'e1' });
+
+        const actual = transform(sourceEntity, { naming: 'origin', transforms: { suffix: '-suf' } });
+
+        assert.deepStrictEqual(actual, targetEntity);
     });
 
     it('should support transforms', () => {
@@ -105,7 +114,7 @@ describe('custom', () => {
             }
         });
 
-        assert.deepEqual(actual, targetEntity);
+        assert.deepStrictEqual(actual, targetEntity);
     });
 
     describe('blacklist', () => {
